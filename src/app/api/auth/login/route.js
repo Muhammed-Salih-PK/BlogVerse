@@ -1,68 +1,97 @@
 import { connectToDatabase } from "@/lib/db";
-import Admin from "@/models/Admin";
+import User from "@/models/User";
 import { NextResponse } from "next/server";
 import { signJwtToken } from "@/lib/auth";
 import bcrypt from "bcryptjs";
-
+import { ROLES, STATUS_CODES, MESSAGES } from "@/lib/constants";
+import { loginSchema } from "@/zod/schemas/loginSchema";
 
 export async function POST(request) {
   try {
     await connectToDatabase();
 
     const body = await request.json();
-    const { email, password } = body;
+
+    // ✅ Validate body with Zod
+    const parsed = loginSchema.safeParse(body);
+    if (!parsed.success) {
+      const validationErrors = parsed.error.errors.map(
+        (err) => `${err.path[0]}: ${err.message}`
+      );
+      return NextResponse.json(
+        { message: "Validation Error", errors: validationErrors },
+        { status: STATUS_CODES.BAD_REQUEST }
+      );
+    }
+    const validatedData = parsed.data;
+    const { email, password } = validatedData;
 
     if (!email || !password) {
       return NextResponse.json(
         { message: "Email and password are required" },
-        { status: 400 }
+        { status: STATUS_CODES.BAD_REQUEST }
       );
     }
 
-    const admin = await Admin.findOne({ email }).select("+password");
+    const user = await User.findOne({ email }).select("+password");
 
-    if (!admin) {
+    if (!user) {
       return NextResponse.json(
         { message: "Invalid email or password" },
-        { status: 401 }
+        { status: STATUS_CODES.UNAUTHORIZED }
       );
     }
 
-    const isPasswordCorrect = await bcrypt.compare(password, admin.password);
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
       return NextResponse.json(
         { message: "Invalid email or password" },
-        { status: 401 }
+        { status: STATUS_CODES.UNAUTHORIZED }
       );
     }
 
+    if (user.isLocked) {
+      return NextResponse.json(
+        { message: "Account is locked" },
+        { status: STATUS_CODES.FORBIDDEN }
+      );
+    }
+
+    user.loginAttempts = 0;
+    user.lastLogin = new Date();
+    await user.save();
+
     const token = await signJwtToken({
-      id: admin._id.toString(),
-      email: admin.email,
-      role: admin.role,
+      id: user._id.toString(),
+      email: user.email,
+      role: user.role,
     });
 
-    // ✅ Create response and set cookie
     const response = NextResponse.json({
       message: "Login successful",
-      admin: { email: admin.email, id: admin._id, role: admin.role },
+      user: {
+        email: user.email,
+        id: user._id,
+        role: user.role,
+        avatar: user.avatar,
+      },
     });
 
-    response.cookies.set("adminToken", token, {
+    response.cookies.set("authToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     return response;
   } catch (err) {
     console.error("Error during login process:", err);
     return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
+      { message: MESSAGES.SERVER_ERROR },
+      { status: STATUS_CODES.SERVER_ERROR }
     );
   }
 }

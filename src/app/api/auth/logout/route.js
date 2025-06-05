@@ -1,16 +1,13 @@
-import { NextResponse } from 'next/server';
-import { serialize } from 'cookie'; // Optional: only if you're handling cookies manually
+import { NextResponse } from "next/server";
 
-export async function POST() {
+export async function POST(req) {
   // Clear the cookie by setting it to empty and expiring it
-  const response = NextResponse.json({ message: 'Logged out' });
+  const response = NextResponse.json({ message: "Logged out" });
 
-  response.cookies.set({
-    name: 'adminToken',
-    value: '',
-    path: '/',
+  response.cookies.set("authToken", "", {
+    path: "/",
     httpOnly: true,
-    expires: new Date(0), // Expire it immediately
+    expires: new Date(0),
   });
 
   return response;

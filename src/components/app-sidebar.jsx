@@ -46,20 +46,31 @@ const data = {
       icon: IconDashboard,
     },
     {
-      title: "Manage blogs",
-      url: "/admin/blogs",
+      title: "Manage posts",
+      url: "/admin/articles",
       icon: IconListDetails,
     },
     {
-      title: "Manage Jobs",
-      url: "/admin/jobs",
+      title: "Manage users",
+      url: "/admin/users",
       icon: IconChartBar,
     },
     {
-      title: "Manage Applications",
-      url: "/admin/applications",
+      title: "Manage Categories",
+      url: "/admin/categories",
+      icon: IconDashboard,
+    },
+    {
+      title: "Manage Tags",
+      url: "/admin/tags",
+      icon: IconListDetails,
+    },
+    {
+      title: "Manage settings",
+      url: "/admin/settings",
       icon: IconFolder,
     },
+    
     // {
     //   title: "Team",
     //   url: "#",

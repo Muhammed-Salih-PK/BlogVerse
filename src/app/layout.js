@@ -4,12 +4,17 @@ import NavWrapper from "./components/NavWrapper"; // New wrapper component
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <Toaster richColors />
         <NavWrapper />
         <main>{children}</main>
@@ -19,8 +24,9 @@ export default function RootLayout({ children }) {
 }
 export async function generateMetadata() {
   return {
-    title: "blog - section",
+    title: "BlogPress | Modern Web Development Articles",
     robots: "noindex, follow",
+    content:
+      "Latest articles on web development, React, Next.js, and modern frontend technologies",
   };
 }
-

@@ -41,12 +41,13 @@ export function NavMain({ items }) {
             const isActive = activePath === item.url; // Compare with updated state
 
             return (
-              <SidebarMenuItem key={item.title} className={`rounded-lg ${isActive 
-                ? "bg-gray-900 dark:bg-white text-white dark:text-black"
-                : "hover:bg-gray-800 dark:hover:bg-gray-200"
-              }`}>
+              <SidebarMenuItem key={item.title}>
                 <Link href={item.url}>
-                  <SidebarMenuButton tooltip={item.title}>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    isActive={isActive}
+                    className={ isActive && "bg-gray-900 dark:bg-white text-white dark:text-black" }
+                  >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </SidebarMenuButton>

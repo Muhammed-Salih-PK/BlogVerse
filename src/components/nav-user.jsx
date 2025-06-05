@@ -14,28 +14,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { toast } from "sonner";
+import { genericFetchData } from "@/lib/genericFetchData";
 
 export function NavUser({ user }) {
   const { isMobile } = useSidebar();
   const router = useRouter(); // ✅ Initialize router
 
   const handleLogout = async () => {
-    try {
-      const res = await fetch("/api/auth/logout", { method: "POST" });
-      if (res.ok) {
-        toast.success("Logged out successfully");
-        window.location.href = "/admin/login";
-      } else {
-        throw new Error("Logout failed");
-      }
-    } catch (error) {
+    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, "POST");
+
+    if (error) {
       console.error("Logout error:", error);
       toast.error("Logout failed. Please try again.");
+    } else {
+      toast.success("Logged out successfully");
+      window.location.href = "/login";
     }
   };
- const handleAccount = ()=>{
-  router.push("/admin/account")
- }
+  const handleAccount = () => {
+    router.push("/admin/account");
+  };
   return (
     <SidebarMenu>
       <SidebarMenuItem>

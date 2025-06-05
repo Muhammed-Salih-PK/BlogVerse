@@ -36,7 +36,7 @@ const UserSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ['user', 'author', 'admin'],
-      default: 'user'
+      default: 'author'
     },
     socialLinks: {
       twitter: String,

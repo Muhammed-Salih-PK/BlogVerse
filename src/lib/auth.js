@@ -21,3 +21,7 @@ export const verifyJwtToken = async (token) => {
     throw new Error("Invalid token");
   }
 };
+
+export function hasAccess(decodedobject, allowedRoles = []) {
+  return !!decodedobject?.role && allowedRoles.includes(decodedobject.role);
+}
