@@ -1,5 +1,7 @@
 # BlogVerse - Next.js Blogging Platform
 
+🚀 **Live Demo**: [https://blogverse-xi.vercel.app](https://blogverse-xi.vercel.app)
+
 BlogVerse is a modern, full-stack blogging platform built with Next.js, featuring authentication, rich content creation, and a beautiful user interface.
 
 ## ✨ Key Features
@@ -137,9 +139,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📬 Contact
 
-Muhammed Salih PK - [LinkedIn](https://linkedin.com/in/mhdsalihpk) - mhdsalihoffl@gmail.com
+**Muhammed Salih PK**  
+- Email: [mhdsalihoffl@gmail.com](mailto:mhdsalihoffl@gmail.com)  
+- LinkedIn: [linkedin.com/in/mhdsalihpk](https://linkedin.com/in/mhdsalihpk)  
+- GitHub: [github.com/Muhammed-Salih-PK](https://github.com/Muhammed-Salih-PK)
 
-Project Link: [https://github.com/Muhammed-Salih-PK/BlogVerse](https://github.com/Muhammed-Salih-PK/BlogVerse)
 
 ## 🌐 Deployment
 
