@@ -22,7 +22,7 @@ export default function ArticlePage() {
   useEffect(() => {
     const fetchArticle = async () => {
       setLoading(true);
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/posts/${articleid}`, "GET");
+      const [data, error] = await genericFetchData(`/api/admin/posts/${articleid}`, "GET");
 
       if (error) {
         console.error("Error fetching article:", error);

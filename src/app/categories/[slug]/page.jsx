@@ -19,7 +19,7 @@ export default function CategoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories/${slug}`, "GET");
+      const [data, error] = await genericFetchData(`/api/categories/${slug}`, "GET");
 
       if (error) {
         console.error("Error fetching category:", error);

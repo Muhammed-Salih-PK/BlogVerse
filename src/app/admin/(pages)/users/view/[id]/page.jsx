@@ -19,7 +19,7 @@ export default function ProfilePage() {
   useEffect(() => {
     async function fetchProfile() {
       setIsLoading(true);
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/users/${id}`, "GET");
+      const [data, error] = await genericFetchData(`/api/admin/users/${id}`, "GET");
 
       if (error) {
         console.error("Error fetching profile data: ", error);

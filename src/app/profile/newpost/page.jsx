@@ -44,7 +44,7 @@ export default function CreatePost() {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`, "GET");
+      const [data, error] = await genericFetchData(`/api/categories`, "GET");
 
       if (error) {
         console.error("Failed to fetch categories:", error);

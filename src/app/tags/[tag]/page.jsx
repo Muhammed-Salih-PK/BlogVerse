@@ -17,7 +17,7 @@ export default function TagPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tags/${tag}`, "GET");
+      const [data, error] = await genericFetchData(`/api/tags/${tag}`, "GET");
 
       if (error) {
         console.error("Error fetching tag:", error);

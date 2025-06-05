@@ -27,9 +27,9 @@ export default function ArticlesPage() {
       setLoading(true);
 
       const [articlesRes, categoriesRes, tagsRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`),
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`),
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tags`),
+        fetch(`/api/posts`),
+        fetch(`/api/categories`),
+        fetch(`/api/tags`),
       ]);
 
       if (!articlesRes.ok || !categoriesRes.ok || !tagsRes.ok) {

@@ -32,7 +32,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const onSubmit = async (body) => {
-    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, "POST", body);
+    const [data, error] = await genericFetchData(`/api/auth/login`, "POST", body);
 
     if (error) {
       console.error(error);

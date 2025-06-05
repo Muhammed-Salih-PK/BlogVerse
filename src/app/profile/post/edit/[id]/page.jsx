@@ -58,7 +58,7 @@ export default function EditPostForm() {
 
     const fetchPost = async () => {
       setLoading(true);
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`, "GET");
+      const [data, error] = await genericFetchData(`/api/posts/${id}`, "GET");
 
       if (error) {
         setMessage({ text: data?.message || "Error loading post data.", type: "error" });
@@ -99,7 +99,7 @@ export default function EditPostForm() {
   const onSubmit = async (body) => {
     setMessage({ text: "", type: "" });
 
-    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`, "PUT", body);
+    const [data, error] = await genericFetchData(`/api/posts/${id}`, "PUT", body);
     if (error) {
       setMessage({
         text: error.message || "Network error. Please try again.",

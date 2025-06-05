@@ -31,7 +31,7 @@ export default function SignupPage() {
   const router = useRouter();
 
   const onSubmit = async (body) => {
-    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, "POST", body);
+    const [data, error] = await genericFetchData(`/api/auth/signup`, "POST", body);
 
     if (error) {
       setError(error.message);

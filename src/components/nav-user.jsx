@@ -21,7 +21,7 @@ export function NavUser({ user }) {
   const router = useRouter(); // ✅ Initialize router
 
   const handleLogout = async () => {
-    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, "POST");
+    const [data, error] = await genericFetchData(`/api/auth/logout`, "POST");
 
     if (error) {
       console.error("Logout error:", error);

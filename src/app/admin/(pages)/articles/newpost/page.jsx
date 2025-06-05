@@ -52,8 +52,8 @@ export default function CreatePost() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [categoriesData, categoriesError] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`, "GET");
-        const [usersResponse, usersError] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/users`, "GET");
+        const [categoriesData, categoriesError] = await genericFetchData(`/api/categories`, "GET");
+        const [usersResponse, usersError] = await genericFetchData(`/api/admin/users`, "GET");
 
         if (categoriesError || usersError) {
           throw new Error(categoriesError?.message || usersError?.message || "Failed to fetch data");

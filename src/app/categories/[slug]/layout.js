@@ -7,7 +7,7 @@ export async function generateMetadata({ params }) {
 
   // You must use absolute URL when fetching server-side
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/categories/${slug}`
+    `/api/categories/${slug}`
   );
   const {category} = await res.json();
   

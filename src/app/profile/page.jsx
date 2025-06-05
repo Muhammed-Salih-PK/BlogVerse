@@ -33,7 +33,7 @@ export default function ProfilePage() {
     async function fetchProfile() {
       setIsLoading(true);
       try {
-        const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/profile`);
+        const [data, error] = await genericFetchData(`/api/profile`);
 
         if (error) {
           throw new Error(error.message || "Failed to fetch profile data");

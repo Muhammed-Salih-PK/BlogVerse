@@ -61,7 +61,7 @@ export default function Page() {
   }, [id]);
 
   const onSubmit = async (body) => {
-    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/categories/${id}`, "PUT", body);
+    const [data, error] = await genericFetchData(`/api/admin/categories/${id}`, "PUT", body);
 
     if (error) {
       toast.error("Failed to update post");

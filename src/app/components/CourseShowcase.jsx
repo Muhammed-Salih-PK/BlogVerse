@@ -12,7 +12,7 @@ function CourseShowcase() {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/blogs`, "GET");
+      const [data, error] = await genericFetchData(`/api/admin/blogs`, "GET");
       if (error) {
         console.error("Course Fetching Error:");
         setblogs([]);

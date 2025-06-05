@@ -58,7 +58,7 @@ export default function Page() {
     async function fetchPost() {
       setLoading(true);
 
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/posts/${id}`, "GET");
+      const [data, error] = await genericFetchData(`/api/admin/posts/${id}`, "GET");
 
       if (error) {
         toast.error(error.message || "Failed to load post data");
@@ -83,7 +83,7 @@ export default function Page() {
   // Fetch all categories
   useEffect(() => {
     const fetchCategories = async () => {
-      const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`, "GET");
+      const [data, error] = await genericFetchData(`/api/categories`, "GET");
       if (error) {
         toast.error(error.message || "Failed to load categories");
       } else {
@@ -94,7 +94,7 @@ export default function Page() {
   }, []);
 
   const onSubmit = async (body) => {
-    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/posts/${id}`, "PUT", body);
+    const [data, error] = await genericFetchData(`/api/admin/posts/${id}`, "PUT", body);
 
     if (error) {
       toast.error(error.message || "Failed to update post");

@@ -50,7 +50,7 @@ export default function EditUser() {
     async function fetchProfile() {
       setLoading(true);
 
-      const [response, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/users/${id}`, "GET");
+      const [response, error] = await genericFetchData(`/api/admin/users/${id}`, "GET");
 
       const data = response.user;
 
@@ -78,7 +78,7 @@ export default function EditUser() {
   const onSubmit = async (body) => {
     setMessage({ text: "", type: "" });
 
-    const [data, error] = await genericFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/users/${id}`, "PUT", body);
+    const [data, error] = await genericFetchData(`/api/admin/users/${id}`, "PUT", body);
 
     if (error) {
       setMessage({ text: "Network error. Please try again.", type: "error" });
