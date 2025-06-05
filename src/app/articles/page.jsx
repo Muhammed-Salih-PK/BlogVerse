@@ -26,11 +26,7 @@ export default function ArticlesPage() {
     try {
       setLoading(true);
 
-      const [articlesRes, categoriesRes, tagsRes] = await Promise.all([
-        fetch(`/api/posts`),
-        fetch(`/api/categories`),
-        fetch(`/api/tags`),
-      ]);
+      const [articlesRes, categoriesRes, tagsRes] = await Promise.all([fetch(`/api/posts`), fetch(`/api/categories`), fetch(`/api/tags`)]);
 
       if (!articlesRes.ok || !categoriesRes.ok || !tagsRes.ok) {
         throw new Error("Failed to fetch data");
@@ -72,7 +68,7 @@ export default function ArticlesPage() {
     if (categorySlug === "all") return articles.length;
     return articles.filter((article) => article.categories?.some((cat) => cat.slug === categorySlug)).length;
   };
-  
+
   const iteamsPerPage = 6;
   const totalPages = Math.ceil(filteredArticles.length / iteamsPerPage);
   const startIndex = (currentPage - 1) * iteamsPerPage;
@@ -371,7 +367,7 @@ export default function ArticlesPage() {
               )}
 
               {/* Pagination */}
-              {!loading && filteredArticles.length > 0 && (
+              {!loading && totalPages > 1  && (
                 <div className='flex justify-center mt-12'>
                   <nav className='flex items-center space-x-2'>
                     <button

@@ -2,18 +2,10 @@ export default function CategoriesLayout({ children }) {
   return <>{children}</>;
 }
 
-export async function generateMetadata({ params }) {
-  const { slug } = await params;
-
-  // You must use absolute URL when fetching server-side
-  const res = await fetch(
-    `/api/categories/${slug}`
-  );
-  const {category} = await res.json();
-  
+export async function generateMetadata() {
   return {
-    title: `${category?.name} Articles | BlogPress`,
+    title: ` Category | BlogPress`,
     robots: "noindex, follow",
-    description: `Browse all articles tagged with ${category?.description}`,
+    description: `Browse all articles tagged with `,
   };
 }

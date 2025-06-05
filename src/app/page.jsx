@@ -8,7 +8,6 @@ import { Skeleton } from "@/components/ui/skeleton"; // Import Shadcn Skeleton
 import LikeButton from "./components/LikeButton";
 import { genericFetchData } from "@/lib/genericFetchData";
 
-
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -333,7 +332,7 @@ export default function Home() {
                       </div>
                     </article>
                   ))}
-                  {!loading && paginatedArticles.length > 0 && (
+                  {!loading && paginatedArticles.length > 0 && filteredPosts.length > ITEAMS_PER_PAGE && (
                     <div className='flex justify-center mt-12'>
                       <nav className='flex items-center space-x-2'>
                         <button
