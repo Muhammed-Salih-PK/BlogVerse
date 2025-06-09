@@ -5,7 +5,7 @@ export default function ArticleLayout({ children }) {
 export async function generateMetadata() {
   
   return {
-    title: `Article | BlogPress`,
+    title: `Article | BlogVerse`,
     robots: "noindex, follow",
     description: `Browse all articles tagged with `,
   };

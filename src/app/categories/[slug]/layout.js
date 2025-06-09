@@ -4,7 +4,7 @@ export default function CategoriesLayout({ children }) {
 
 export async function generateMetadata() {
   return {
-    title: ` Category | BlogPress`,
+    title: ` Category | BlogVerse`,
     robots: "noindex, follow",
     description: `Browse all articles tagged with `,
   };

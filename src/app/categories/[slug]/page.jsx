@@ -52,7 +52,7 @@ export default function CategoryPage() {
   return (
     <>
       <Head>
-        <title>{category.name} Articles | BlogPress</title>
+        <title>{category.name} Articles | BlogVerse</title>
         <meta name='description' content={`Browse all ${category.name} articles`} />
       </Head>
 

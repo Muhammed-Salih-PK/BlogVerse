@@ -74,7 +74,7 @@ export default function ArticlePage() {
   return (
     <>
       <Head>
-        <title>{article.title} | BlogPress</title>
+        <title>{article.title} | BlogVerse</title>
         <meta name='description' content={article.excerpt} />
         <meta property='og:title' content={article.title} />
         <meta property='og:description' content={article.excerpt} />

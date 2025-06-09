@@ -81,7 +81,7 @@ export default function BlogNavbar() {
           >
             <span className='flex items-center'>
               <FiFeather className='mr-2' />
-              BlogPress
+              BlogVerse
             </span>
           </motion.span>
         </Link>

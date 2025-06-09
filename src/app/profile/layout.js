@@ -4,7 +4,7 @@ export default function ProfileLayout({ children }) {
 
 export async function generateMetadata() {
   return {
-    title: ` Profile Page | BlogPress`,
+    title: ` Profile Page | BlogVerse`,
     robots: "noindex, follow",
     description: `Browse all articles tagged with profile`,
   };

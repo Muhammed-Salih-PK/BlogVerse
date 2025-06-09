@@ -50,8 +50,8 @@ export default function AboutPage() {
   return (
     <>
       <Head>
-        <title>About BlogPress | Empowering Developers</title>
-        <meta name='description' content='Learn about BlogPress and our mission to provide high-quality technical content for developers.' />
+        <title>About BlogVerse | Empowering Developers</title>
+        <meta name='description' content='Learn about BlogVerse and our mission to provide high-quality technical content for developers.' />
       </Head>
 
       {/* Hero Section */}
@@ -66,7 +66,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className='text-5xl md:text-6xl font-bold mb-6 leading-tight'
           >
-            About <span className='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400'>BlogPress</span>
+            About <span className='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400'>BlogVerse</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -150,7 +150,7 @@ export default function AboutPage() {
               <div className='relative'>
                 <img
                   src='https://plus.unsplash.com/premium_photo-1720744786849-a7412d24ffbf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D'
-                  alt='BlogPress team working'
+                  alt='BlogVerse team working'
                   className='w-full h-auto rounded-2xl shadow-xl'
                 />
                 <div className='absolute -bottom-6 -right-6 bg-indigo-600 text-white p-4 rounded-xl shadow-lg'>
@@ -171,7 +171,7 @@ export default function AboutPage() {
               </span>
               <h2 className='text-3xl font-bold mb-6 dark:text-white'>From Idea to Developer Resource</h2>
               <p className='text-gray-600 dark:text-gray-400 mb-6'>
-                BlogPress was founded in 2025 by a developers who were frustrated with the lack of practical, up-to-date technical content available
+                BlogVerse was founded in 2025 by a developers who were frustrated with the lack of practical, up-to-date technical content available
                 online. We started as a small blog with a handful of articles and have grown into a trusted resource for thousands of developers
                 worldwide.
               </p>
@@ -197,7 +197,7 @@ export default function AboutPage() {
               <span className='inline-block px-3 py-1 text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 mb-4'>
                 Our Team
               </span>
-              <h2 className='text-4xl font-bold mb-4 dark:text-white'>Meet The Minds Behind BlogPress</h2>
+              <h2 className='text-4xl font-bold mb-4 dark:text-white'>Meet The Minds Behind BlogVerse</h2>
               <p className='text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto'>
                 A diverse team of developers, writers, and designers passionate about technology education.
               </p>

@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
 }
 export async function generateMetadata() {
   return {
-    title: "BlogPress | Modern Web Development Articles",
+    title: "BlogVerse | Modern Web Development Articles",
     robots: "noindex, follow",
     content:
       "Latest articles on web development, React, Next.js, and modern frontend technologies",

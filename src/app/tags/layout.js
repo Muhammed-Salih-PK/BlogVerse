@@ -3,7 +3,7 @@ export default function TagsLayout({ children }) {
 }
 
 export const metadata = {
-  title: "Tags | BlogPress",
+  title: "Tags | BlogVerse",
   robots: "noindex, follow",
-  description: "Browse all article tags on BlogPress",
+  description: "Browse all article tags on BlogVerse",
 };

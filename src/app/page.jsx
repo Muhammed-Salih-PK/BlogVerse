@@ -86,7 +86,7 @@ export default function Home() {
 
             {/* Main heading with gradient */}
             <h1 className='text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6'>
-              <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-white'>BlogPress</span>
+              <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-white'>BlogVerse</span>
             </h1>
 
             {/* Subheading */}
@@ -409,7 +409,7 @@ export default function Home() {
               ) : (
                 <>
                   <div className='bg-white dark:bg-gray-700 p-6 rounded-xl shadow'>
-                    <h3 className='text-lg font-bold mb-4 dark:text-white'>About BlogPress</h3>
+                    <h3 className='text-lg font-bold mb-4 dark:text-white'>About BlogVerse</h3>
                     <p className='text-gray-600 dark:text-gray-300 mb-4'>
                       We publish high-quality articles on web development, design, and modern technologies to help developers stay updated.
                     </p>

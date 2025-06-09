@@ -3,7 +3,7 @@ export default function ArticlesLayout({ children }) {
 }
 
 export const metadata = {
-  title: "Articles | BlogPress",
+  title: "Articles | BlogVerse",
   robots: "noindex, follow",
-  description: "Browse all articles on BlogPress",
+  description: "Browse all articles on BlogVerse",
 };

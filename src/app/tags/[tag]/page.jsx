@@ -60,7 +60,7 @@ export default function TagPage() {
   return (
     <>
       <Head>
-        <title>#{currentTag} Articles | BlogPress</title>
+        <title>#{currentTag} Articles | BlogVerse</title>
         <meta name='description' content={`Browse all articles tagged with ${currentTag}`} />
       </Head>
 

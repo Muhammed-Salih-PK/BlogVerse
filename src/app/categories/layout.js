@@ -3,7 +3,7 @@ export default function CategoriesLayout({ children }) {
 }
 
 export const metadata = {
-  title: "Categories | BlogPress",
+  title: "Categories | BlogVerse",
   robots: "noindex, follow",
-  description: "Browse all article categories on BlogPress",
+  description: "Browse all article categories on BlogVerse",
 };
