@@ -6,6 +6,8 @@ import { FiClock, FiBookmark, FiSearch, FiChevronDown } from "react-icons/fi";
 import { FaTags } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton";
 import LikeButton from "../components/LikeButton";
+import { motion } from "framer-motion";
+import { scaleUp } from "@/lib/motionVariants";
 
 export default function ArticlesPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -229,7 +231,8 @@ export default function ArticlesPage() {
                 ) : (
                   <div className='flex flex-wrap gap-2'>
                     {tags.map((tag) => (
-                      <button
+                      <motion.button
+                        whileHover={{ y: -1 }}
                         key={tag}
                         onClick={() => setSearchQuery(tag)}
                         className={`px-3 py-1 text-sm rounded-full flex items-center ${
@@ -239,14 +242,21 @@ export default function ArticlesPage() {
                         }`}
                       >
                         <FaTags className='mr-1 text-xs' /> {tag}
-                      </button>
+                      </motion.button>
                     ))}
                   </div>
                 )}
               </div>
 
               {/* Newsletter */}
-              <div className='bg-gradient-to-r hidden lg:block from-blue-500 to-purple-600 p-6 rounded-xl shadow text-white'>
+              <motion.div
+                initial='hidden'
+                whileInView='visible'
+                viewport={{ once: true, margin: "-50px" }}
+                variants={scaleUp}
+                transition={{ delay: 0.2 }}
+                className='bg-gradient-to-r hidden lg:block from-blue-500 to-purple-600 p-6 rounded-xl shadow text-white'
+              >
                 <>
                   <h3 className='text-lg font-bold mb-2'>Get Updates</h3>
                   <p className='mb-4 opacity-90'>Subscribe to our newsletter for new articles.</p>
@@ -257,12 +267,17 @@ export default function ArticlesPage() {
                       className='w-full px-4 py-2 rounded-lg border text-gray-100 focus:outline-none'
                       required
                     />
-                    <button type='submit' className='w-full bg-white text-purple-600 hover:bg-gray-100 py-2 rounded-lg font-medium transition-colors'>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      type='submit'
+                      className='w-full bg-white text-purple-600 hover:bg-gray-100 py-2 rounded-lg font-medium transition-colors'
+                    >
                       Subscribe
-                    </button>
+                    </motion.button>
                   </form>
                 </>
-              </div>
+              </motion.div>
             </div>
 
             {/* Articles List */}
@@ -296,11 +311,17 @@ export default function ArticlesPage() {
                         {article.featuredImage && (
                           <img src={article.featuredImage} alt={article.title} className='w-full h-full object-cover' loading='lazy' />
                         )}
-                        {article.categories?.[0]?.name && (
-                          <div className='absolute bottom-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium'>
-                            {article.categories[0].name}
-                          </div>
-                        )}
+                        <div className='absolute bottom-4 left-4 flex flex-wrap gap-2'>
+                          {article.categories && article.categories.length > 0 ? (
+                            article.categories.map((cat) => (
+                              <div key={cat._id || cat.slug} className='bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium'>
+                                {cat.name}
+                              </div>
+                            ))
+                          ) : (
+                            <div className='bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium'>Uncategorized</div>
+                          )}
+                        </div>
                       </div>
                       <div className='p-6'>
                         <div className='flex items-center mb-3'>
@@ -325,19 +346,25 @@ export default function ArticlesPage() {
 
                         <div className='flex flex-wrap gap-2 mb-4'>
                           {article.tags?.map((tag) => (
-                            <span
+                            <motion.span
+                              whileHover={{ y: -2 }}
                               key={tag}
                               className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded flex items-center'
                             >
                               <FaTags className='mr-1 text-xs' /> {tag}
-                            </span>
+                            </motion.span>
                           ))}
                         </div>
 
                         <div className='flex justify-between items-center'>
                           <div className='flex items-center'>
                             {article.authorId?.avatar ? (
-                              <img src={article.authorId.avatar} alt={article.authorId.username} className='w-8 h-8 rounded-full mr-2' />
+                              <motion.img
+                                whileHover={{ scale: 1.2 }}
+                                src={article.authorId.avatar}
+                                alt={article.authorId.username}
+                                className='w-8 h-8 rounded-full mr-2'
+                              />
                             ) : (
                               <div className='w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 mr-2'></div>
                             )}
@@ -350,9 +377,13 @@ export default function ArticlesPage() {
                               initialCount={article.meta?.likes?.length || 0}
                             />
 
-                            <button className='text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400'>
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              className='text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400'
+                            >
                               <FiBookmark />
-                            </button>
+                            </motion.button>
                           </div>
                         </div>
                       </div>
@@ -367,7 +398,7 @@ export default function ArticlesPage() {
               )}
 
               {/* Pagination */}
-              {!loading && totalPages > 1  && (
+              {!loading && totalPages > 1 && (
                 <div className='flex justify-center mt-12'>
                   <nav className='flex items-center space-x-2'>
                     <button
