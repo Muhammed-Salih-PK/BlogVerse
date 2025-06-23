@@ -11,14 +11,16 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { genericFetchData } from "@/lib/genericFetchData";
 import Error from "@/app/components/error/Error";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 export default function ArticlePage() {
-  const router = useRouter()
+  const router = useRouter();
   const { articleid } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const userId = useAppSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -119,7 +121,7 @@ export default function ArticlePage() {
             <div className='flex space-x-3'>
               <LikeButton
                 postId={article._id}
-                initialLiked={Array.isArray(article.meta?.likes?.includes(article.authorId))} // Assuming userId is available in Home
+                initialLiked={Array.isArray(article.meta?.likes) && userId && article.meta.likes.includes(userId)} // Assuming userId is available in Home
                 initialCount={article.meta?.likes?.length || 0}
               />
               <button onClick={handleBookmark} className={`${isBookmarked ? "text-yellow-500" : "text-gray-500 dark:text-gray-400"}`}>

@@ -99,7 +99,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Mission */}
-      <section className='py-20 px-4 bg-white dark:bg-gray-900'>
+      <section className='py-20 px-4 bg-white dark:bg-gray-900 '>
         <div className='container mx-auto max-w-6xl'>
           <div className='text-center mb-16'>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
@@ -137,7 +137,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className='py-20 px-4 bg-gray-50 dark:bg-gray-800'>
+      <section className='py-20 px-4 bg-gray-50 dark:bg-gray-800 overflow-hidden'>
         <div className='container mx-auto max-w-6xl'>
           <div className='flex flex-col lg:flex-row items-center gap-12'>
             <motion.div
@@ -153,7 +153,7 @@ export default function AboutPage() {
                   alt='BlogVerse team working'
                   className='w-full h-auto rounded-2xl shadow-xl'
                 />
-                <div className='absolute -bottom-6 -right-6 bg-indigo-600 text-white p-4 rounded-xl shadow-lg'>
+                <div className='absolute -bottom-6 -right-4 bg-indigo-600 text-white p-4 rounded-xl shadow-lg'>
                   <span className='block text-2xl font-bold'>2025</span>
                   <span className='text-sm'>Founded</span>
                 </div>

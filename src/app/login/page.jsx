@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { genericFetchData } from "@/lib/genericFetchData";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/zod/schemas/loginSchema";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { setUser } from "@/lib/features/auth/authSlice";
 
 export default function LoginPage() {
   const {
@@ -29,8 +30,7 @@ export default function LoginPage() {
   });
 
   const [error, setError] = useState("");
-  const router = useRouter();
-
+  const dispatch = useAppDispatch();
   const onSubmit = async (body) => {
     const [data, error] = await genericFetchData(`/api/auth/login`, "POST", body);
 
@@ -40,11 +40,11 @@ export default function LoginPage() {
     } else {
       setError("");
       toast.success("Login Successfully");
-
+      dispatch(setUser(data.user));
       if (data.user.role === "admin") {
-        router.push("/admin/dashboard");
+        window.location.href = "/admin/dashboard";
       } else {
-        router.push("/profile");
+        window.location.href = "/profile";
       }
     }
   };

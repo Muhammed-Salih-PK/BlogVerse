@@ -9,6 +9,7 @@ import LikeButton from "./components/LikeButton";
 import { genericFetchData } from "@/lib/genericFetchData";
 import { motion } from "framer-motion";
 import { containerVariants, fadeInUp, itemVariants, scaleUp } from "@/lib/motionVariants";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -17,6 +18,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const userId = useAppSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -321,7 +323,6 @@ export default function Home() {
                                   <motion.span
                                     key={cat._id || cat.slug}
                                     whileHover={{ scale: 1.1 }}
-                                    
                                     className='bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded'
                                     title={cat.name}
                                   >
@@ -369,7 +370,7 @@ export default function Home() {
                             <div className='flex items-center space-x-4'>
                               <LikeButton
                                 postId={post._id}
-                                initialLiked={Array.isArray(post.meta?.likes) && post.meta?.likes?.includes(post.authorId)} // Assuming userId is available in Home
+                                initialLiked={Array.isArray(post.meta?.likes) && userId && post.meta.likes.includes(userId)} // Assuming userId is available in Home
                                 initialCount={post.meta?.likes?.length || 0}
                               />
 

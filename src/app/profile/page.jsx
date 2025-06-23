@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -422,8 +423,8 @@ export default function ProfilePage() {
   );
 }
 
-
 function ProfilePosts({ post, onDelete }) {
+  const userId = useAppSelector((state) => state.auth.user?.id);
   return (
     <article className='border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 group transition-colors'>
       <div className='group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 p-4 rounded-lg transition-colors'>
@@ -470,7 +471,7 @@ function ProfilePosts({ post, onDelete }) {
               <div className='flex items-center'>
                 <LikeButton
                   postId={post.id}
-                  initialLiked={Array.isArray(post.meta?.likes) && post.meta?.likes?.includes(post.authorId)}
+                  initialLiked={Array.isArray(post.meta?.likes) && userId && post.meta?.likes?.includes(userId)} 
                   initialCount={post.meta?.likes?.length || 0}
                 />
               </div>

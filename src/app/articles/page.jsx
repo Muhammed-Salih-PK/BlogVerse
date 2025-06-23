@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import LikeButton from "../components/LikeButton";
 import { motion } from "framer-motion";
 import { scaleUp } from "@/lib/motionVariants";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 export default function ArticlesPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +20,7 @@ export default function ArticlesPage() {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
+  const userId = useAppSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
     fetchData();
@@ -373,7 +375,7 @@ export default function ArticlesPage() {
                           <div className='flex items-center space-x-3'>
                             <LikeButton
                               postId={article._id}
-                              initialLiked={Array.isArray(article.meta?.likes) && article.meta?.likes?.includes(article.authorId)} // Assuming userId is available in Home
+                              initialLiked={Array.isArray(article.meta?.likes) && userId && article.meta.likes.includes(userId)} // Assuming userId is available in Home
                               initialCount={article.meta?.likes?.length || 0}
                             />
 
