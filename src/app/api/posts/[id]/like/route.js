@@ -23,7 +23,7 @@ export const PATCH = async (req, { params }) => {
     if (!token) {
       return NextResponse.json(
         { message: MESSAGES.UNAUTHORIZED },
-        { status: STATUS_CODES.UNAUTHORIZED }
+        { status: STATUS_CODES.FORBIDDEN }
       );
     }
 
@@ -32,13 +32,16 @@ export const PATCH = async (req, { params }) => {
     if (!hasAccess(decoded, [ROLES.AUTHOR])) {
       return NextResponse.json(
         { message: MESSAGES.FORBIDDEN },
-        { status:STATUS_CODES.FORBIDDEN }
+        { status: STATUS_CODES.BAD_REQUEST }
       );
     }
 
     const userId = decoded?.id;
     if (!userId) {
-      return NextResponse.json({ message: "Invalid token" }, { status: STATUS_CODES.FORBIDDEN });
+      return NextResponse.json(
+        { message: "Invalid token" },
+        { status: STATUS_CODES.FORBIDDEN }
+      );
     }
 
     const post = await Post.findById(id);

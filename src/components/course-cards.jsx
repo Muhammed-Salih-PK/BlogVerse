@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,10 +14,10 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { IconTrendingUp } from "@tabler/icons-react";
-import { useState } from "react";
+
 
 export function CourseCards({CourseId, Coursetitle, CourseDescription, CourseDuration, CourseFees, CourseSubjects, onDelete }) {
-  // const [hovered, setHovered] = useState(false);
+
 
   return (
     <Card

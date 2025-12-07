@@ -1,284 +1,490 @@
 "use client";
-
-import { motion } from "framer-motion";
 import { useState } from "react";
-import { FiSend, FiUser, FiMail, FiMessageSquare } from "react-icons/fi";
-import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2, Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Clock, Users, MessageSquare, Shield, ArrowRight } from "lucide-react";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-export function ContactUs() {
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email"),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  phone: z.string().optional(),
+});
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
-  } = useForm({ defaultValues: { name: "", email: "", message: "" } });
+    formState: { errors, isValid },
+    trigger,
+  } = useForm({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+      phone: "",
+    },
+    mode: "onChange",
+  });
 
-  const [status, setStatus] = useState({ isSubmitting: false, isSuccess: false, error: null });
-
-  const onSubmit = async () => {
-    setStatus({ isSubmitting: true, isSuccess: false, error: null });
-
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      setStatus({ isSubmitting: false, isSuccess: true, error: null });
-      reset({ name: "", email: "", message: "" });
-
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setStatus((prev) => ({ ...prev, isSuccess: false }));
-      }, 5000);
-    } catch (err) {
-      setStatus({ isSubmitting: false, isSuccess: false, error: "Failed to send message. Please try again." });
-    }
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    console.log("Contact form submitted:", data);
+    
+    setIsSubmitting(false);
+    setSubmitSuccess(true);
+    toast.success("Message Sent Successfully!", {
+      description: "We'll get back to you within 24 hours.",
+    });
+    reset();
+    
+    // Reset success state after 5 seconds
+    setTimeout(() => setSubmitSuccess(false), 5000);
   };
 
+  const contactInfo = [
+    {
+      icon: Mail,
+      title: "Email Us",
+      value: "support@nexus.com",
+      description: "We reply within 24 hours",
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
+    },
+    {
+      icon: Phone,
+      title: "Call Us",
+      value: "+1 (555) 123-4567",
+      description: "Mon-Fri, 9AM-6PM EST",
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
+    },
+    {
+      icon: MapPin,
+      title: "Visit Us",
+      value: "San Francisco, CA",
+      description: "Come say hello!",
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
+    },
+    {
+      icon: Clock,
+      title: "Response Time",
+      value: "24 Hours",
+      description: "Average first response",
+      color: "text-amber-500",
+      bgColor: "bg-amber-500/10",
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "How quickly can I expect a response?",
+      answer: "Our team typically responds within 24 hours during business days.",
+    },
+    {
+      question: "Do you offer 24/7 support?",
+      answer: "Yes, we have a dedicated team available around the clock for critical issues.",
+    },
+    {
+      question: "What information should I include in my message?",
+      answer: "Please include your name, contact details, and a detailed description of your inquiry.",
+    },
+    {
+      question: "Can I schedule a demo call?",
+      answer: "Absolutely! Mention 'Schedule Demo' in your subject line and we'll arrange a time.",
+    },
+  ];
+
   return (
-    <section className='py-20 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
-      <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='text-center mb-12'>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className='text-4xl md:text-5xl font-bold text-gray-900 dark:text-white'
-          >
-            Get in Touch
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className='text-xl text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto'
-          >
-            Have a project in mind or questions about our services? We'd love to hear from you.
-          </motion.p>
-        </div>
-
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12'>
-          {/* Contact Information */}
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-primary/5">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden border-b">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className='bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg'
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className="text-center"
           >
-            <h3 className='text-2xl font-semibold text-gray-800 dark:text-white mb-6'>Contact Information</h3>
-
-            <div className='space-y-6'>
-              <div className='flex items-start gap-4'>
-                <div className='p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-full'>
-                  <FiMail className='text-emerald-600 dark:text-emerald-400 text-xl' />
-                </div>
-                <div>
-                  <h4 className='text-gray-500 dark:text-gray-400 text-sm font-medium'>Email</h4>
-                  <a
-                    href='mailto:contact@example.com'
-                    className='text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition'
-                  >
-                    contact@example.com
-                  </a>
-                </div>
-              </div>
-
-              <div className='flex items-start gap-4'>
-                <div className='p-3 bg-blue-100 dark:bg-blue-900/30 rounded-full'>
-                  <FiMessageSquare className='text-blue-600 dark:text-blue-400 text-xl' />
-                </div>
-                <div>
-                  <h4 className='text-gray-500 dark:text-gray-400 text-sm font-medium'>Support</h4>
-                  <a
-                    href='mailto:support@example.com'
-                    className='text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition'
-                  >
-                    support@example.com
-                  </a>
-                </div>
-              </div>
-
-              <div className='flex items-start gap-4'>
-                <div className='p-3 bg-purple-100 dark:bg-purple-900/30 rounded-full'>
-                  <FiUser className='text-purple-600 dark:text-purple-400 text-xl' />
-                </div>
-                <div>
-                  <h4 className='text-gray-500 dark:text-gray-400 text-sm font-medium'>Hours</h4>
-                  <p className='text-gray-800 dark:text-gray-200'>Monday - Friday: 9AM - 5PM</p>
-                </div>
-              </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+              <MessageSquare className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Contact Us</span>
             </div>
+            
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary via-purple-500 to-primary bg-clip-text text-transparent mb-6">
+              Get in Touch
+            </h1>
+            
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+              Have questions? We're here to help. Send us a message and our team will get back to you shortly.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-            <div className='mt-8 pt-6 border-t border-gray-200 dark:border-gray-700'>
-              <h4 className='text-lg font-medium text-gray-800 dark:text-white mb-4'>Follow Us</h4>
-              <div className='flex gap-4'>
-                {["Twitter", "LinkedIn", "GitHub", "Dribbble"].map((social) => (
-                  <motion.a
-                    key={social}
-                    href='#'
-                    whileHover={{ y: -3 }}
-                    className='p-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition'
-                    aria-label={social}
-                  >
-                    <span className='text-gray-700 dark:text-gray-300'>{social.charAt(0)}</span>
-                  </motion.a>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* Left Column - Contact Info */}
+          <div className="lg:col-span-1">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer}
+              className="space-y-6"
+            >
+              {/* Contact Cards */}
+              {contactInfo.map((item, index) => (
+                <motion.div key={item.title} variants={fadeInUp}>
+                  <Card className="border hover:shadow-xl transition-all duration-300 group hover:border-primary/30">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4">
+                        <div className={`p-3 rounded-xl ${item.bgColor} group-hover:scale-110 transition-transform`}>
+                          <item.icon className={`w-6 h-6 ${item.color}`} />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
+                            {item.title}
+                          </h3>
+                          <p className="text-muted-foreground text-sm mb-2">{item.description}</p>
+                          <p className="font-medium">{item.value}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+
+              {/* Stats Card */}
+              <motion.div variants={fadeInUp}>
+                <Card className="bg-gradient-to-br from-gray-900 to-gray-800 text-white border-0">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 bg-white/20 rounded-lg">
+                        <Users className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold">Support Team</h3>
+                        <p className="text-sm text-gray-300">Always ready to help</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold">50+</div>
+                        <div className="text-xs text-gray-300">Team Members</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold">99%</div>
+                        <div className="text-xs text-gray-300">Satisfaction</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Right Column - Contact Form */}
+          <div className="lg:col-span-2">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              <Card className="border-0 shadow-2xl overflow-hidden">
+                <div className="h-2 bg-gradient-to-r from-primary via-purple-500 to-primary" />
+                
+                <CardHeader className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <Send className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl">Send us a message</CardTitle>
+                      <CardDescription>
+                        Fill out the form below and we'll get back to you as soon as possible
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="p-6">
+                  {submitSuccess ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="text-center py-12"
+                    >
+                      <div className="w-20 h-20 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <CheckCircle className="w-10 h-10 text-emerald-500" />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-3">Message Sent!</h3>
+                      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                        Thank you for reaching out. We've received your message and will get back to you within 24 hours.
+                      </p>
+                      <Button 
+                        onClick={() => setSubmitSuccess(false)}
+                        variant="outline"
+                        className="gap-2 group"
+                      >
+                        Send Another Message
+                        <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Name Field */}
+                        <div className="space-y-2">
+                          <Label htmlFor="name" className="text-sm font-medium">
+                            Full Name *
+                          </Label>
+                          <div className="relative">
+                            <Input
+                              id="name"
+                              placeholder="John Doe"
+                              className={`pl-10 ${errors.name ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                              {...register("name")}
+                              onBlur={() => trigger("name")}
+                            />
+                            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                              <Users className="w-5 h-5" />
+                            </div>
+                          </div>
+                          {errors.name && (
+                            <p className="text-red-500 text-xs flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3" />
+                              {errors.name.message}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Email Field */}
+                        <div className="space-y-2">
+                          <Label htmlFor="email" className="text-sm font-medium">
+                            Email Address *
+                          </Label>
+                          <div className="relative">
+                            <Input
+                              id="email"
+                              type="email"
+                              placeholder="you@example.com"
+                              className={`pl-10 ${errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                              {...register("email")}
+                              onBlur={() => trigger("email")}
+                            />
+                            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                              <Mail className="w-5 h-5" />
+                            </div>
+                          </div>
+                          {errors.email && (
+                            <p className="text-red-500 text-xs flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3" />
+                              {errors.email.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Phone Field */}
+                        <div className="space-y-2">
+                          <Label htmlFor="phone" className="text-sm font-medium">
+                            Phone Number (Optional)
+                          </Label>
+                          <div className="relative">
+                            <Input
+                              id="phone"
+                              type="tel"
+                              placeholder="+1 (555) 123-4567"
+                              className="pl-10"
+                              {...register("phone")}
+                            />
+                            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                              <Phone className="w-5 h-5" />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Subject Field */}
+                        <div className="space-y-2">
+                          <Label htmlFor="subject" className="text-sm font-medium">
+                            Subject *
+                          </Label>
+                          <Input
+                            id="subject"
+                            placeholder="How can we help?"
+                            className={errors.subject ? "border-red-500 focus-visible:ring-red-500" : ""}
+                            {...register("subject")}
+                            onBlur={() => trigger("subject")}
+                          />
+                          {errors.subject && (
+                            <p className="text-red-500 text-xs flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3" />
+                              {errors.subject.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Message Field */}
+                      <div className="space-y-2">
+                        <Label htmlFor="message" className="text-sm font-medium">
+                          Your Message *
+                        </Label>
+                        <Textarea
+                          id="message"
+                          placeholder="Please describe your inquiry in detail..."
+                          className={`min-h-[150px] resize-none ${errors.message ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                          {...register("message")}
+                          onBlur={() => trigger("message")}
+                        />
+                        {errors.message && (
+                          <p className="text-red-500 text-xs flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3" />
+                            {errors.message.message}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Security Note */}
+                      <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <Shield className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-blue-700 dark:text-blue-300">
+                          Your information is secure and encrypted. We'll never share your details with third parties.
+                        </p>
+                      </div>
+
+                      {/* Submit Button */}
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button
+                          type="submit"
+                          size="lg"
+                          className="w-full gap-2 group bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
+                          disabled={isSubmitting || !isValid}
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              Sending Message...
+                            </>
+                          ) : (
+                            <>
+                              Send Message
+                              <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </>
+                          )}
+                        </Button>
+                      </motion.div>
+                    </form>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* FAQ Section */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUp}
+              className="mt-12"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <MessageSquare className="w-6 h-6 text-primary" />
+                </div>
+                <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {faqs.map((faq, index) => (
+                  <Card key={index} className="border hover:border-primary/30 transition-colors">
+                    <CardContent className="p-6">
+                      <h3 className="font-semibold mb-2">{faq.question}</h3>
+                      <p className="text-sm text-muted-foreground">{faq.answer}</p>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className='bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg'
-          >
-            <h3 className='text-2xl font-semibold text-gray-800 dark:text-white mb-6'>Send Us a Message</h3>
-
-            {status.error && (
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className='mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3'
-              >
-                <FaExclamationCircle className='text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0' />
-                <p className='text-red-700 dark:text-red-300'>{status.error}</p>
-              </motion.div>
-            )}
-
-            {status.isSuccess && (
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className='mb-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg flex items-start gap-3'
-              >
-                <FaCheckCircle className='text-emerald-500 dark:text-emerald-400 mt-0.5 flex-shrink-0' />
-                <p className='text-emerald-700 dark:text-emerald-300'>Message sent successfully! We'll get back to you soon.</p>
-              </motion.div>
-            )}
-
-            <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Name Field */}
-                <div>
-                  <label htmlFor='name' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'>
-                    Full Name
-                  </label>
-                  <div className='relative'>
-                    <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                      <FiUser className='text-gray-400' />
-                    </div>
-                    <input
-                      type='text'
-                      id='name'
-                      {...register("name", {
-                        required: "Name is Required",
-                        minLength: {
-                          value: 3,
-                          message: "Name atleast 3 characters",
-                        },
-                        maxLength: {
-                          value: 20,
-                          message: "Name not exceed 20 character",
-                        },
-                        pattern: {
-                          value: /^[a-zA-Z ]+$/,
-                          message: "Username can only contain letters",
-                        },
-                      })}
-                      placeholder='John Doe'
-                      className='pl-10 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white transition'
-                    />
-                    {errors.name && <p className='text-red-600 text-sm'>{errors.name.message}</p>}
-                  </div>
-                </div>
-
-                {/* Email Field */}
-                <div>
-                  <label htmlFor='email' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'>
-                    Email Address
-                  </label>
-                  <div className='relative'>
-                    <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                      <FiMail className='text-gray-400' />
-                    </div>
-                    <input
-                      type='email'
-                      id='email'
-                      {...register("email", {
-                        required: "Email is required",
-                        pattern: {
-                          value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                          message: "Please enter a valid email address",
-                        },
-                      })}
-                      placeholder='your@email.com'
-                      className='pl-10 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white transition'
-                    />
-                  </div>
-                  {errors.email && <p className='text-red-600 text-sm'>{errors.email.message}</p>}
-                </div>
-              </div>
-
-              {/* Message Field */}
-              <div>
-                <label htmlFor='message' className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'>
-                  Your Message
-                </label>
-                <div className='relative'>
-                  <div className='absolute top-3 left-3'>
-                    <FiMessageSquare className='text-gray-400' />
-                  </div>
-                  <textarea
-                    id='message'
-                    name='message'
-                    {...register("message", {
-                      required: "message is required",
-                    })}
-                    rows='5'
-                    placeholder='Tell us about your project...'
-                    className='pl-10 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white transition'
-                  ></textarea>
-                  {errors.message && <p className='text-red-600 text-sm'>{errors.message.message}</p>}
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <motion.button
-                type='submit'
-                disabled={status.isSubmitting}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg shadow-md transition-all ${
-                  status.isSubmitting
-                    ? "bg-gray-300 dark:bg-gray-600 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-600"
-                }`}
-              >
-                {status.isSubmitting ? (
-                  <>
-                    <svg className='animate-spin -ml-1 mr-2 h-5 w-5 text-white' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
-                      <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4'></circle>
-                      <path
-                        className='opacity-75'
-                        fill='currentColor'
-                        d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-                      ></path>
-                    </svg>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <FiSend />
-                    Send Message
-                  </>
-                )}
-              </motion.button>
-            </form>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="mt-16 lg:mt-24"
+        >
+          <Card className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-primary/20">
+            <CardContent className="p-8 text-center">
+              <div className="max-w-2xl mx-auto">
+                <h2 className="text-2xl font-bold mb-3">Looking for Immediate Help?</h2>
+                <p className="text-muted-foreground mb-6">
+                  Check out our comprehensive documentation or join our community forum for quick answers.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button className="gap-2 group">
+                    View Documentation
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                  <Button variant="outline" className="gap-2">
+                    Join Community
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
-    </section>
+    </div>
   );
 }
