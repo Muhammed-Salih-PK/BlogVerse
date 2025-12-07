@@ -1,8 +1,11 @@
+export const dynamic = "force-dynamic";
+
 import ArticleClient from "@/app/components/articles/ArticlesClient";
 
 export default async function ArticlePage() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
     const [articlesRes, categoriesRes, tagsRes] = await Promise.all([
       fetch(`${baseUrl}/api/posts`, { cache: "no-store" }),
       fetch(`${baseUrl}/api/categories`, { cache: "no-store" }),

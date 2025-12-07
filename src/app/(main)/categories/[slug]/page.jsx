@@ -2,7 +2,7 @@ import SingleCategoryClient from "@/app/components/categories/SingleCategoryClie
 import { genericFetchData } from "@/lib/genericFetchData";
 
 export default async function CategoryPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const [data, error] = await genericFetchData(`${baseUrl}/api/categories/${slug}`, "GET");

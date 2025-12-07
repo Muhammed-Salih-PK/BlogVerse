@@ -3,7 +3,7 @@ import Error from "@/app/components/error/Error";
 import { genericFetchData } from "@/lib/genericFetchData";
 
 export default async function ArticlePage({ params }) {
-  const { articleid } = params;
+  const { articleid } = await params;
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const [data, error] = await genericFetchData(`${baseUrl}/api/posts/${articleid}`, "GET");
